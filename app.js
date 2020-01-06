@@ -19,7 +19,7 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/View/game_selector.html'));
 })
-
+ //DB gets
 app.get('/champs', function (req, res) {
     model.getChamplist((function (err, results) {
       //console.log("app.jss" + results);
@@ -32,7 +32,19 @@ app.get('/champs', function (req, res) {
     }))
    //res.send("fca");
    //res.send(model.returnChamps());
-})
+});
+app.get('/gameList', function(req, res){
+    model.getGameList((function (err, results) {
+        res.send(
+            {
+                error:err, //the error if any occurred
+                results:results //the returned results from the query
+            }
+        )
+    }))
+});
+//DB gets
+
 
 app.get('/dentry', function (req, res) {
     res.sendFile(path.join(__dirname + '/View/data_entry_page.html'));
@@ -49,6 +61,7 @@ app.get('/redSide', function (req, res) {
 app.get('/blueSide', function (req, res) {
     res.sendFile(path.join(__dirname + '/View/draft_page.html'));
 })
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

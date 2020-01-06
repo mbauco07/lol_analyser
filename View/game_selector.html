@@ -15,24 +15,10 @@
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
     <title>Game Selector</title>
 </head>
-<body>
+<body onload=onload()>
 <h1>Game Selector</h1>
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">Game</th>
-        <th scope="col">Draft</th>
-        <th scope="col">Red Side</th>
-        <th scope="col">Blue Side</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-        <th scope="row">Team Names go hear 1 vs 2</th>
-        <td><button class="btn btn-info" id="7825" onclick="toDraft(this.id)">Draft</button></td>
-        <td><button class="btn btn-primary" id="7825" onclick="toRedSide(this.id)">Red Side</button></td>
-        <td><button class="btn btn-danger"  id="7825" onclick="toBlueSide(this.id)">Blue Side</button></td>
-    </tr>
+<table class="table" id="gameTable">
+    <tbody id="gameTableBody">
     </tbody>
 </table>
 
