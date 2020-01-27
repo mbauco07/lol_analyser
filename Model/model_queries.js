@@ -1,10 +1,17 @@
 var mysql = require('mysql');
+//Promise based http client
+const axios = require('axios');
+const Path = require('path')
+const fs = require('fs')
+const request = require("request");
+const dataDragonUrl = "http://ddragon.leagueoflegends.com/cdn/10.2.1/img/champion/";
 
 var con = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "root",
-    database: "lol_data"
+    database: "lol_data",
+    multipleStatements: true
 });
 
 
@@ -16,7 +23,7 @@ exports.connectToDB = function () {
     });
 }
 
-
+/*
 //Custom Modules that return data to the client//
 
 /*getChamplist
@@ -24,6 +31,7 @@ exports.connectToDB = function () {
 *input: N/A
 *output: a list of all the champions and their unique id
  */
+/**
 function getChampListCallback (callback) {
     con.query("SELECT DISTINCT  champ_id as ID, champ_name as NAME FROM lol_data.champs ORDER BY champ_name", function (err, result, fields)
     {
@@ -39,7 +47,63 @@ function getChampListCallback (callback) {
 
 }
 exports.getChamplist = getChampListCallback;
-/*GET_GAME
+*/
+
+function getChamps() {
+    return axios.get('http://ddragon.leagueoflegends.com/cdn/10.1.1/data/en_US/champion.json')
+        //success
+        .then(response => {
+
+            champsJSON = [];
+            var champs = response.data
+
+            //console.log(champs.data);
+            for (i in champs.data) {
+                //console.log(ch
+                var name = champs.data[i].name;
+                var key = champs.data[i].key;
+                champInfo = {};
+                //download the champion sqaure asset
+                downloadChampImages(name);
+                champInfo["NAME"] = name;
+                champInfo["ID"] = key;
+                champsJSON.push(champInfo)
+            }
+            return (champsJSON);
+        })
+        //failure
+        .catch(error => {
+            return error;
+        });
+}
+
+exports.getChamps = getChamps;
+
+
+/**DOWNLOAD CHAMP IMAGES
+ * This Function will download the champions images and replace old images with new ones
+ * or add new images for new champs*
+ *
+ * @param callback
+ */
+function downloadChampImages(champName) {
+    console.log(champName)
+    var url = dataDragonUrl+champName+".png" //web url where the images are hosted
+    url = url.replace(" ", "") //remove spaces from url if any appear
+    url = url.replace("'", "") //remove ' from url if any appear
+    url = url.replace(".", "") //remove . from url if any appear
+    axios.get(url,  {responseType: "stream"} )
+        .then(response => {
+// Saving file to working directory
+            response.data.pipe(fs.createWriteStream("public/images/champSquareAssets/"+champName+".png"));
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+}
+
+/*GET_GAMES_LIST
 *about: This module will retrieve the game information (the game id and the teams names)
 *input: N/A
 *output: a list of the game ids and the respective teams playing in each game on the correct side (blue or red)
@@ -65,12 +129,36 @@ function  getGameListCallBack(callback) {
                 return (err, null);
 
             }
-               var results = {"blue_side" : blue_teams_results, "red_side":red_side_results}
-             callback(err, results);
-           // callback(err, result);
+            var results = {"blue_side" : blue_teams_results, "red_side":red_side_results}
+            callback(err, results);
+
         });
     })
 
 }
 
 exports.getGameList = getGameListCallBack;
+
+
+/*getGame
+about: it will get the game source and the teams so we can send it to the client
+input: gameID
+output: game video, team info (players and side select)
+ */
+
+function getGameInfo(gameID, callback){
+    con.query("SELECT game_link FROM lol_data.lcs_games_spring_2019 where game_id = ?",
+        [
+                    gameID
+                ],
+        function (err, gameResults) {
+            if(err) {
+                return (err, null);
+
+            }
+            callback(err, gameResults);
+
+    })
+
+}
+exports.getGameInfo = getGameInfo;

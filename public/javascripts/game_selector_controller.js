@@ -6,6 +6,8 @@ function onload() {
  getGameList();
 }
 
+function toTestDraft() {
+    window.open("http://localhost:3000/toTestDraft");}
 
 function toDraft(gameID) {
     // redirect the page to the drafting page for the specified game

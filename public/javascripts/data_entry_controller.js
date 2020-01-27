@@ -25,11 +25,11 @@ function populateChampDropDown() {
     jQuery.get('/champs', " ", function (data) {
         //console.log(data.results);
         for(let i = 0; i < data.results.length; i++){
-            //console.log(data.results[i]["NAME"]);
+            console.log(data);
 
             let selectToPopulate = document.getElementById("cur_Champ");
             var newElement = document.createElement("option");
-            newElement.textContent = data.results[i]["NAME"].replace(/_/g, ' ');
+            newElement.textContent = data.results[i]["NAME"];
             newElement.id = data.results[i]["ID"];
             newElement.value = data.results[i]["NAME"];
             selectToPopulate.appendChild(newElement);

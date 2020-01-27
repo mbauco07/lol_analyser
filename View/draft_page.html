@@ -10,13 +10,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!--controller page-->
-    <script src="/javascripts/data_entry_controller.js"></script>
+    <script src="/javascripts/draft_page_controller.js"></script>
     <!--css styling-->
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
 
     <title>Draft Page</title>
 </head>
-<body>
+<body onload=onload()>
+<h1>DRAFT DATA</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+                <h6>Pick Order</h6>
+            <table class="table" id="gameTable">
+                <tbody id="gameDraftOrder">
+                </tbody>
+            </table>
+            </select>
+        </div>
+        <div class="col-sm">
+            <h6>Champion Picked:</h6>
+            <select class="custom-select custom-select-sm" id="cur_Champ">
+                <option id="-1">-Please Select a Champion-</option>
+            </select>
+            <button type="button" class="btn btn-default" onclick="addChampToDraft()">Champion Picked</button>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+                    <!--<div style="text-align:center">
+                        <button onclick="playPause()">Play/Pause</button>
+                        <button onclick="makeBig()">Big</button>
+                        <button onclick="makeSmall()">Small</button>
+                        <button onclick="makeNormal()">Normal</button>
+                        <br><br>
+                        <iframe id="gameVideo" width="1000" height="700" SameSite="None" ></iframe>
+                    </div>-->
 
 </body>
 </html>

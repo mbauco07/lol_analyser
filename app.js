@@ -1,10 +1,13 @@
 
 var createError = require('http-errors');
-var express = require('express');
+var express = require('express')
+    , router = express.Router()
+    , bodyParser = require('body-parser')
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var url = require('url');
+const axios = require('axios');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -21,20 +24,25 @@ app.get('/', function (req, res) {
 })
  //DB gets
 app.get('/champs', function (req, res) {
-    model.getChamplist((function (err, results) {
-      //console.log("app.jss" + results);
-      res.send(
-          {
-            error:err, //the error if any occurred
-            results:results //the returned results from the query
-          }
-      )
-    }))
-   //res.send("fca");
-   //res.send(model.returnChamps());
+   model.getChamps().then(function (data) {
+        res.send(data);
+   });
+
 });
 app.get('/gameList', function(req, res){
     model.getGameList((function (err, results) {
+        res.send(
+            {
+
+                error:err, //the error if any occurred
+                results:results //the returned results from the query
+            }
+        )
+    }))
+});
+app.get('/getGameFeed', function(req, res){
+    model.getGameInfo( req.query.gid, (function (err, results) {
+
         res.send(
             {
                 error:err, //the error if any occurred
@@ -43,6 +51,12 @@ app.get('/gameList', function(req, res){
         )
     }))
 });
+
+
+app.get('/toTestDraft', function (req, res) {
+    res.sendFile(path.join(__dirname + '/View/toTestDraft.html'));
+})
+
 //DB gets
 
 
