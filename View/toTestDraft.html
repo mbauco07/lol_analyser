@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!--controller page-->
-    <script src="/javascripts/toTestDRaft_controller.js"></script>
+    <script src="/javascripts/draftingPages_controller.js"></script>
     <!--css styling-->
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
     <title>Practice Draft</title>
@@ -18,47 +18,61 @@
 
 <body>
 <h1>Practice Draft</h1>
+
 <div class="container">
+    <article class="clock" id="model3">
+        <h3>Time Left in Pick/Ban</h3>
+
+        <div class="count">
+            <div  id="count">30</div>
+        </div>
+        <progress value="0" max="30" id="progressBar"></progress>
+        <button type="button" class="btn btn-secondary" id= "startClock" onclick="startClock()">Start</button>
+        <button type="button" class="btn btn-secondary" id= "submit" onclick="submitDraftInfo()">Submit</button>
+    </article>
     <div class="row">
-        <div class="col-3">
-           Blue Side Picks
-                <div class="row">
-                    <img class="img-fluid" alt="Responsive image">
-                </div>
-                <div class="row">
-                    b2
-                </div>
-                <div class="row">
-                    b3
-                </div>
-                <div class="row">
-                    b4
-                </div>
-                <div class="row">
-                    b5
-                </div>
+        <div class="col-3" id="blueSide">
+            <table id="blueSidePicks">
+                <thead>Picks</thead>
+                <tr id="bluePick1"></tr>
+                <tr id="bluePick2"></tr>
+                <tr id="bluePick3"></tr>
+                <tr id="bluePick4"></tr>
+                <tr id="bluePick5"></tr>
+            </table>
+            <table id="blueSideBans">
+                <thead>Bans</thead>
+                <td id="blueBan1"></td>
+                <td id="blueBan2"></td>
+                <td id="blueBan3"></td>
+                <td id="blueBan4"></td>
+                <td id="blueBan5"></td>
+            </table>
         </div>
             <div class="col-6">
-                Champs To Pick
-                <canvas id="champsCanvas" width="500" height="500" style="border:1px solid #000000;"></canvas>
+                <div style="overflow-y: scroll; height:400px;" id="champsDiv"></div>
             </div>
-            <div class="col-3">
-                Red Side Picks
-                <div class="row">
-                    r1
-                </div>
-                <div class="row">
-                    r2
-                </div>
-                <div class="row">
-                    r3
-                </div>
-                <div class="row">
-                    r4
-                </div>
-                <div class="row">
-                    r5
-                </div>            </div>
+            <div class="col-3" id="redSide">
+                <table id="redSidePicks">
+                    <thead>Picks</thead>
+                    <tr id="redPick1"></tr>
+                    <tr id="redPick2"></tr>
+                    <tr id="redPick3"></tr>
+                    <tr id="redPick4"></tr>
+                    <tr id="redPick5"></tr>
+                </table>
+                <table id="redSideBans">
+                    <thead>Bans</thead>
+                    <td id="redBan1"></td>
+                    <td id="redBan2"></td>
+                    <td id="redBan3"></td>
+                    <td id="redBan4"></td>
+                    <td id="redBan5"></td>
+                </table>
+            </div>
+    </div>
+    <div id="pbOrder"><h3>Pick Ban Order</h3>
+
     </div>
 </div>
 </body>

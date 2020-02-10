@@ -7,11 +7,12 @@ function onload() {
 }
 
 function toTestDraft() {
-    window.open("http://localhost:3000/toTestDraft");}
+    window.open("http://localhost:3000/toTestDraft?gid=-1&btid=-1&rtid=-1")
+        }
 
-function toDraft(gameID) {
+function toDraft(gameID, btid, rtid) {
     // redirect the page to the drafting page for the specified game
-    window.open("http://localhost:3000/draft?gid="+gameID);
+    window.open("http://localhost:3000/draft?gid="+gameID+"&btid="+btid+"&rtid="+rtid);
 }
 
 function toRedSide(gameID, teamID) {
@@ -41,12 +42,12 @@ function getGameList() {
             var blueSideDentryCell = newTableRow.insertCell(2);
             var redSideDentryCell = newTableRow.insertCell(3);
             //populate each cell with the correct information
-            gameCell.innerHTML = data.results.blue_side[i].Blue_Side.replace(/_/g, ' ') + " VS " +data.results.red_side[i].Red_Side.replace(/_/g, ' ');
-            draftCell.innerHTML = "<button class=\"btn btn-info\" id="+data.results.blue_side[i].game_id+" onclick=\"toDraft("+data.results.blue_side[i].game_id+")\">Draft</button></td>";
+            gameCell.innerHTML = data.results.blue_side[i].Blue_Side.replace(/_/g, ' ') + "(Blue Side) VS " +data.results.red_side[i].Red_Side.replace(/_/g, ' ')+"(Red Side)";
+            draftCell.innerHTML = "<button class=\"btn btn-info\" id="+data.results.blue_side[i].game_id+" onclick=\"toDraft("+data.results.blue_side[i].game_id+","+data.results.blue_side[i].team_id+","+data.results.red_side[i].team_id+")\">Draft</button></td>";
             blueSideDentryCell.innerHTML = "<button class=\"btn btn-primary\" id="+data.results.blue_side[i].game_id+""+
-                " onclick=\"toBlueSide("+data.results.blue_side[i].game_id+","+data.results.blue_side[i].team_id+")\">Blue Side Date Entry</button></td>";
+                " onclick=\"toBlueSide("+data.results.blue_side[i].game_id+","+data.results.blue_side[i].team_id+")\">Data Entry</button></td>";
             redSideDentryCell.innerHTML = "<button class=\"btn btn-danger\" id="+data.results.blue_side[i].game_id+
-                " onclick=\"toRedSide("+data.results.red_side[i].game_id+","+data.results.red_side[i].team_id+")\">Red Side Data Entry</button></td>";
+                " onclick=\"toRedSide("+data.results.red_side[i].game_id+","+data.results.red_side[i].team_id+")\">Data Entry</button></td>";
 
         }
 

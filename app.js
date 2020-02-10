@@ -1,7 +1,6 @@
-
+const http = require('http');
 var createError = require('http-errors');
 var express = require('express')
-    , router = express.Router()
     , bodyParser = require('body-parser')
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -11,11 +10,17 @@ const axios = require('axios');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+
 //require for the model queries
 var model = require('./Model/model_queries.js');
 
 
 var app = express();
+
+
+
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/public'));
 
@@ -40,10 +45,10 @@ app.get('/gameList', function(req, res){
         )
     }))
 });
-app.get('/getGameFeed', function(req, res){
-    model.getGameInfo( req.query.gid, (function (err, results) {
+app.get('/get_teams_info', function(req, res){
 
-        res.send(
+    model.getTeamsInfo( req.query.btid, req.query.rtid, (function (err, results) {
+         res.send(
             {
                 error:err, //the error if any occurred
                 results:results //the returned results from the query
@@ -76,6 +81,17 @@ app.get('/blueSide', function (req, res) {
     res.sendFile(path.join(__dirname + '/View/draft_page.html'));
 })
 
+
+
+
+///POST///
+app.post('/draft_data', function (req, res) {
+   var jsonDraft = JSON.stringify(req.body);
+    var draftInfo = JSON.parse(jsonDraft);
+
+   // console.log('Got Body:', draftInfo);
+    model.insert_draft_info(draftInfo.gameID, draftInfo.blueBans, draftInfo.bluePicks, draftInfo.redBans, draftInfo.redPicks, draftInfo.gameResult);
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

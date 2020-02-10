@@ -7,49 +7,86 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    <!-- Optional JavaScript -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!--controller page-->
-    <script src="/javascripts/draft_page_controller.js"></script>
-    <!--css styling-->
-    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    <!-- Optional JavaScript -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <!--controller page-->
+        <script src="/javascripts/draftingPages_controller.js"></script>
+        <!--css styling-->
+        <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+        <title>Game Draft</title>
+    </head>
 
-    <title>Draft Page</title>
-</head>
-<body onload=onload()>
-<h1>DRAFT DATA</h1>
+<body>
+<h1>Game Draft</h1>
+
 <div class="container">
+    <article class="clock" id="model3">
+        <h3>Time Left in Pick/Ban</h3>
+
+        <div class="count">
+            <div  id="count">30</div>
+        </div>
+        <progress value="0" max="30" id="progressBar"></progress>
+        <button type="button" class="btn btn-secondary" id= "startClock" onclick="startClock()">Start</button>
+        <button type="button" class="btn btn-secondary" id= "submit" onclick="submitDraftInfo()">Submit</button>
+    </article>
     <div class="row">
-        <div class="col-sm">
-                <h6>Pick Order</h6>
-            <table class="table" id="gameTable">
-                <tbody id="gameDraftOrder">
-                </tbody>
+        <div class="col-3" id="blueSide">
+            <h3 id="blueSideTeam"></h3>
+            <table id="blueSidePicks">
+                <thead>Picks</thead>
+                <tr id="bluePick1"></tr>
+                <tr id="bluePick2"></tr>
+                <tr id="bluePick3"></tr>
+                <tr id="bluePick4"></tr>
+                <tr id="bluePick5"></tr>
             </table>
-            </select>
+            <table id="blueSideBans">
+                <thead>Bans</thead>
+                <td id="blueBan1"></td>
+                <td id="blueBan2"></td>
+                <td id="blueBan3"></td>
+                <td id="blueBan4"></td>
+                <td id="blueBan5"></td>
+            </table>
+            <input type="radio" id="blueSideWin" name="blueSideWin" value="win"> <label for="blueSideWin">Blue Side Win</label><br>
         </div>
-        <div class="col-sm">
-            <h6>Champion Picked:</h6>
-            <select class="custom-select custom-select-sm" id="cur_Champ">
-                <option id="-1">-Please Select a Champion-</option>
-            </select>
-            <button type="button" class="btn btn-default" onclick="addChampToDraft()">Champion Picked</button>
+        <div class="col-6">
+            <div style="overflow-y: scroll; height:400px;" id="champsDiv"></div>
         </div>
+        <div class="col-3" id="redSide">
+            <h3 id="redSideTeam"></h3>
+            <table id="redSidePicks">
+                <thead>Picks</thead>
+                <tr id="redPick1"></tr>
+                <tr id="redPick2"></tr>
+                <tr id="redPick3"></tr>
+                <tr id="redPick4"></tr>
+                <tr id="redPick5"></tr>
+            </table>
+            <table id="redSideBans">
+                <thead>Bans</thead>
+                <td id="redBan1"></td>
+                <td id="redBan2"></td>
+                <td id="redBan3"></td>
+                <td id="redBan4"></td>
+                <td id="redBan5"></td>
+            </table>
+            <input type="radio" id="redSideWin" name="redSideWin" value="win"> <label for="redSideWin">Red Side Win</label><br>
+        </div>
+    </div>
+    <div id="pbOrder"><h3>Pick Ban Order</h3>
 
     </div>
 </div>
-
-
-
-
-                    <!--<div style="text-align:center">
-                        <button onclick="playPause()">Play/Pause</button>
-                        <button onclick="makeBig()">Big</button>
-                        <button onclick="makeSmall()">Small</button>
-                        <button onclick="makeNormal()">Normal</button>
-                        <br><br>
-                        <iframe id="gameVideo" width="1000" height="700" SameSite="None" ></iframe>
-                    </div>-->
-
 </body>
 </html>

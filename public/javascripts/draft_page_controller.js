@@ -63,13 +63,7 @@ function addChampToTable(pickNumber, champName, champID){
     tableToPopulate.appendChild(newRow);
 
 }
-function getUrlVars() {
-        var vars = {};
-        var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-            vars[key] = value;
-        });
-        return vars;
-}
+
 
 
 var myVideo = document.getElementById("video1");
