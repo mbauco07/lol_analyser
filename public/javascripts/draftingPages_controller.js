@@ -43,18 +43,19 @@ function get_teams_info(){
 
 function getChamps() {
     let champsDiv = document.getElementById("champsDiv");
-
     jQuery.get('/champs', " ", function (data) {
+
         let url = data[0]["URL"];
         for (let i = 0; i < data.length; i++) {
-                let champURL = url+data[i]["FULL"]
+                let champURL = url+data[i]["FULL"];
                 let img = document.createElement('img');
                 //now add champ to div with clickbale property
                 img.src = champURL;
                 img.id = data[i].ID;
+                console.log( data[i].ID+"  "+data[i]["FULL"]);
                 img.height = "75";
                 img.width = "75";
-                img.alt = data[i]["NAME"]
+                img.alt = data[i]["NAME"];
                 img.addEventListener("click", function () {champClicked(data[i].ID, img.id)
             })
            champsDiv.appendChild(img)
@@ -79,7 +80,7 @@ function champClicked(champID, imgID){
     else {
         alert("sorry Picks, Bans can Only start once the timer has begun")
     }
-
+f
 }
 
 /**PICK OR BAN CHAMP
@@ -277,17 +278,20 @@ function submitDraftInfo() {
         get_team_comp();
         //get which team won the game
         var didBlueWin = document.querySelector('input[name="blueSideWin"]:checked');
-        var blue
+        //get the patch that they are playing on
+        var currPatch = $( "#curPatch").val();
         console.log(didBlueWin);
         if(didBlueWin != null){
             //the blueSideTeamWon
             var resultInfo = {};
             resultInfo["tID"] = getUrlParameter("btid");
             resultInfo["result"] = "win";
+            resultInfo["team_side"] = "blue";
             gameResult.push(resultInfo);
             resultInfo = {};
             resultInfo["tID"] = getUrlParameter("rtid");
             resultInfo["result"] = "lose";
+            resultInfo["team_side"] = "red";
             gameResult.push(resultInfo);
         }
         else{
@@ -295,10 +299,12 @@ function submitDraftInfo() {
             var resultInfo = {};
             resultInfo["tID"] = getUrlParameter("btid");
             resultInfo["result"] = "lose";
+            resultInfo["team_side"] = "blue";
             gameResult.push(resultInfo);
             resultInfo = {};
             resultInfo["tID"] = getUrlParameter("rtid");
             resultInfo["result"] = "win";
+            resultInfo["team_side"] = "red";
             gameResult.push(resultInfo);
         }
         var r = confirm("Would You Like To Submit the Information?");
@@ -309,6 +315,7 @@ function submitDraftInfo() {
                 "bluePicks": pickBlue,
                 "redBans": bansRed,
                 "redPicks": picksRed,
+                "curPatch": currPatch,
                 "gameResult":gameResult
             };
 

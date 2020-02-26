@@ -45,6 +45,7 @@ app.get('/gameList', function(req, res){
         )
     }))
 });
+
 app.get('/get_teams_info', function(req, res){
 
     model.getTeamsInfo( req.query.btid, req.query.rtid, (function (err, results) {
@@ -57,6 +58,30 @@ app.get('/get_teams_info', function(req, res){
     }))
 });
 
+app.get("/get_general_game_actions", function (req, res) {
+
+    model.get_general_game_actions( (function (err, results) {
+        res.send(
+            {
+                error: err,
+                results: results
+            }
+        )
+    }))
+});
+
+
+
+app.get('/get_game_team_info', function (req, res) {
+     model.get_game_team_info(req.query.gameID, (function (err, results) {
+       res.send(
+           {
+               error:err,
+               results:results
+           }
+       )
+    }))
+});
 
 app.get('/toTestDraft', function (req, res) {
     res.sendFile(path.join(__dirname + '/View/toTestDraft.html'));
@@ -82,7 +107,11 @@ app.get('/blueSide', function (req, res) {
 })
 
 
-
+app.post('/action_data_insert', function (req, res) {
+    var jsonAction = JSON.stringify(req.body);
+    var actionInfo = JSON.parse(jsonAction);
+    model.insert_game_action(actionInfo.gameID, actionInfo.playerID, actionInfo.teamID, actionInfo.gameActionID, actionInfo.champID, actionInfo.turretType, actionInfo.time, actionInfo.xCoor, actionInfo.yCoor, actionInfo.solo_action, actionInfo.baron_buff);
+});
 
 ///POST///
 app.post('/draft_data', function (req, res) {
@@ -90,7 +119,7 @@ app.post('/draft_data', function (req, res) {
     var draftInfo = JSON.parse(jsonDraft);
 
    // console.log('Got Body:', draftInfo);
-    model.insert_draft_info(draftInfo.gameID, draftInfo.blueBans, draftInfo.bluePicks, draftInfo.redBans, draftInfo.redPicks, draftInfo.gameResult);
+    model.insert_draft_info(draftInfo.gameID, draftInfo.blueBans, draftInfo.bluePicks, draftInfo.redBans, draftInfo.redPicks, draftInfo.curPatch, draftInfo.gameResult);
 });
 
 // view engine setup

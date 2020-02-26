@@ -17,13 +17,13 @@ function toDraft(gameID, btid, rtid) {
 
 function toRedSide(gameID, teamID) {
 // redirect the page to the red side eventing page for the specified game
-    window.open("http://localhost:3000/dentry?gid="+gameID+"&tid"+teamID);
+    window.open("http://localhost:3000/dentry?gid="+gameID+"&tid="+teamID+"&side=red");
 
 
 }
 function toBlueSide(gameID, teamID) {
     //redirect the page to the blue side eventing page for the specified game
-    window.open("http://localhost:3000/dentry?gid="+gameID+"&tid"+teamID);
+    window.open("http://localhost:3000/dentry?gid="+gameID+"&tid="+teamID+"&side=blue");
 }
 
 /*getGameList

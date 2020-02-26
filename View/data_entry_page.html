@@ -16,15 +16,45 @@
 
     <title>Game Data Entry</title>
 </head>
-<body onload=onload()>
+<body>
 <h1>In-Game Data Entry Page</h1>
 <img id="mapLayout" width="500" height="430"
      src="/images/map11.png" style="display:none">
 
 <div class="container">
     <div class="row">
-        <div class="col-6">
-            Video Player
+        <div class="col-3">
+            <h3 id="blueSideTeam"></h3>
+            <form id="blueSideTeamForm">
+                <input type="radio" id="blueChamp1"name="blueSideChamps">
+                <label for="blueChamp1"></label><br>
+                <input type="radio" id="blueChamp2"name="blueSideChamps">
+                <label for="blueChamp2"></label><br>
+                <input type="radio" id="blueChamp3"name="blueSideChamps">
+                <label for="blueChamp3"></label><br>
+                <input type="radio" id="blueChamp4"name="blueSideChamps">
+                <label for="blueChamp4"></label><br>
+                <input type="radio" id="blueChamp5"name="blueSideChamps">
+                <label for="blueChamp5"></label><br>
+            </form>
+            <select id="typeOfGenActionsSelect" onchange="generalActionSelected()">
+                <option value="-1">Please Choose An Action Type</option>
+            </select>
+        </div>
+        <div class="col-3">
+            <h3 id="redSideTeam"></h3>
+            <form id="redSideTeamForm">
+                <input type="radio" id="redChamp1" name="redSideChamps">
+                <label for="redChamp1"></label><br>
+                <input type="radio" id="redChamp2" name="redSideChamps">
+                <label for="redChamp2"></label><br>
+                <input type="radio" id="redChamp3" name="redSideChamps">
+                <label for="redChamp3"></label><br>
+                <input type="radio" id="redChamp4"name="redSideChamps">
+                <label for="redChamp4"></label><br>
+                <input type="radio" id="redChamp5"name="redSideChamps">
+                <label for="redChamp5"></label><br>
+            </form>
         </div>
         <div class="col-6">
             Map Layout <br>
@@ -33,27 +63,28 @@
     </div>
     <div class="row">
         <div class="col-3">
-            <h4>Player/Champion Information:</h4>
-            <h6>Player Name:</h6>
-            <h6>Player Postion</h6>
-            <select class="custom-select custom-select-sm" id="playerPosition">
-            <option value="null">-Please Select a Postion-</option>
-            <option value="Top_Lane">Top Lane</option>
-            <option value="Jungler">Jungle</option>
-            <option value="Mid_Lane">Mid Lane</option>
-            <option value="Bot_Lane">Bot Lane </option>
-            <option value="Support">Support</option>
-            </select>
-            <h6>Champion Being Played:</h6>
-            <select class="custom-select custom-select-sm" id="cur_Champ">
-            <option value="null">-Please Select a Champion-</option>
-            </select>
+            <div id ="typeOfGenAction"> </div>
+                <label for="actionMinuteTime">Please Put Minute</label>
+                <input id="actionMinuteTime" type="number" min="0" max="99">
+                <label for="actionSecondTime">Please Put Seconds</label>
+                <input id="actionSecondTime" type="number" min="0" max="59">
+                <input type="radio" id="solo" name="solo" value="solo">
+                    <label for="solo">Done Solo</label><br>
+                    <input type="radio" id="baronBuff" name="baronBuff" value="baronBuff">
+                    <label for="baronBuff">Baron Buff</label><br>
+
+                    <label for="turretType">Type of Turret:</label>
+                    <select id="turretType">
+                        <option value="nill">N/A</option>
+                        <option value="t1">Tier 1</option>
+                        <option value="t2">Tier 2</option>
+                        <option value="inhib">Inhibitor</option>
+                        <option value="nexus">Nexus</option>
+                    </select>
         </div>
-        <div class="col-9">
-            Action Possibilities
+        <div id="specificActionButtons"  class="col-9">
         </div>
     </div>
-</div>
 
 </body>
 </html>
