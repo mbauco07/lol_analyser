@@ -222,8 +222,6 @@ app.post('/delete_action_row', function (req, res) {
     var game_action_data = JSON.stringify(req.body);
     var game_action = JSON.parse(game_action_data);
 
-     console.log('Got Body:', game_action.gaiID);
-
     model.delete_game_action_row(game_action.gaiID, (function (err, results) {
         res.send(
             {
@@ -232,9 +230,20 @@ app.post('/delete_action_row', function (req, res) {
             }
         )
     }))
-
-
 });
+
+app.post('/add_player_to_team_roster', function (req, res) {
+    var data = JSON.parse(JSON.stringify(req.body));
+    model.add_player_to_team_roster(data.teamID, data.playerID, (function (err, results) {
+        res.send(
+            {
+                error:err,
+                results:results
+            }
+        )
+    }))
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

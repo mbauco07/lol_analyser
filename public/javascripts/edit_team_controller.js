@@ -8,6 +8,15 @@ load_players();
     $( "#addPlayer" ).click(function() {
         var r = confirm("Would You Like To add This Player To the Team?");
         if(r){
+            $.post('/add_player_to_team_roster', {playerID: document.getElementById("playerSelect").value, teamID:document.getElementById("teamSelect").value}, function (data) {
+                if(data.results > 0){
+                    alert("Player was succesfully Added");
+                    location.reload(true);
+                }
+                else{
+                    alert("An Error Occured:"+ data.error)
+                }
+            });
         }
         else{
             alert("fine");

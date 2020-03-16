@@ -588,3 +588,22 @@ function get_free_players(callback){
 
 exports.get_free_players = get_free_players;
 
+
+/** ADD PLAYER TO TEAM
+ * Allow user to add a player to a team roster via client
+ * @param teamID
+ * @param playerID
+ */
+function add_player_to_team_roster(teamID, playerID, callback) {
+    var insert_query = "INSERT into team_rosters_spring_2020 values (?,?)"
+    var values =
+        [teamID, playerID ];
+    con.query(insert_query, values, function (err, result) {
+        if (err) throw err;
+        callback(err, result.affectedRows)
+    });
+
+
+}
+
+exports.add_player_to_team_roster = add_player_to_team_roster;

@@ -25,10 +25,10 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="059218b3-a4ee-4fec-80ff-07bde63c0c39">
-        <schema name="lol_data" object-types="table, view" />
+        <schema name="lol_data" object-types="view, table" />
       </connection>
       <connection connection-id="12170178-9fbd-4622-acc7-f38751df1924">
-        <schema name="lol_data" object-types="table, view" />
+        <schema name="lol_data" object-types="view, table" />
       </connection>
     </loaded-nodes>
   </component>
