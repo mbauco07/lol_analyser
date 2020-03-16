@@ -80,7 +80,7 @@ function champClicked(champID, imgID){
     else {
         alert("sorry Picks, Bans can Only start once the timer has begun")
     }
-f
+
 }
 
 /**PICK OR BAN CHAMP

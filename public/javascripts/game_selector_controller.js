@@ -2,14 +2,20 @@
 DB functions where is loads game and their ids on page load
  */
 function onload() {
-
  getGameList();
 }
 
 function toTestDraft() {
     window.open("http://localhost:3000/toTestDraft?gid=-1&btid=-1&rtid=-1")
-        }
+}
+function addPlayerInformation() {
+    window.open("http://localhost:3000/addPlayer")
 
+}
+ function addTeamRosterInformation() {
+     window.open("http://localhost:3000/editTeam")
+
+ }
 function toDraft(gameID, btid, rtid) {
     // redirect the page to the drafting page for the specified game
     window.open("http://localhost:3000/draft?gid="+gameID+"&btid="+btid+"&rtid="+rtid);

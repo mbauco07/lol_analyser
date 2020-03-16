@@ -1,6 +1,10 @@
 //GLOBALS VARIABLES//
 let xLocation, yLocation;
 let currentGenAction = -1;
+
+
+
+
 $( document ).ready(function() {
     //load the layout into the canvas
     //load the champs name into console
@@ -13,15 +17,26 @@ $( document ).ready(function() {
         getMousePosition(canvas, e);
     });
     get_game_team_information();
+    load_game_actions();
     set_game_actions();
-
+    get_game_items();
+    get_sspells();
 
 
 });
 
 
+function get_game_items() {
+        $.get('/items', {}, function (data) {
+            console.log(data);
+        });
+}
 
-
+function get_sspells() {
+        $.get('sspells', {}, function (data) {
+            console.log(data);
+        })
+}
 function getMousePosition(canvas, event){
 
     let rect = canvas.getBoundingClientRect();
@@ -156,6 +171,7 @@ function action_selected(action_id){
                     data: action_data,
                     dataType: "json",
                 });
+                location.reload(true);
             }
             else{
                 alert("please make sure you click an player ");
@@ -172,6 +188,58 @@ function action_selected(action_id){
 
 }
 
+
+function load_game_actions() {
+    $.get('/get_game_actions_info', { gameID:getUrlParameter("gid")}, function (data) {
+        let actions = data.results;
+        console.log(actions);
+        let actionTable = document.getElementById("gameActionsData");
+        if(actions.length <= 0){
+            let newRow = document.createElement('tr');
+            newRow.innerHTML = "No Actions Have Been Recorded Yet";
+            newRow.style.border = "thick solid black";
+            actionTable.appendChild(newRow);
+
+        }
+        for(let i =0; i < actions.length; i++){
+            let newRow = document.createElement('tr');
+            newRow.innerHTML = actions[i].plyName+":"+actions[i].action_name+" at:"+actions[i].time;
+            newRow.id = actions[i].gai_id;
+            if(actions[i].teamID == actions[i].blue_side){
+                newRow.style.color = 'blue';
+            }
+            else {
+                newRow.style.color = 'red' ;
+
+            }
+            newRow.style.border = "thick solid #0000FF";
+            newRow.addEventListener("click", removeRow);
+            actionTable.appendChild(newRow);
+        }
+
+    });
+
+}
+function removeRow() {
+   var r = confirm("Are you Sure You Want To Delete This Event Permanently?");
+   if(r==true){
+        console.log($(this).closest('tr').attr('id'));
+       $.post("/delete_action_row", { gaiID:$(this).closest('tr').attr('id')}, function (data) {
+           let results = data.results;
+
+           //we only remove the data from the client side if we know the databse acvtually removed a row
+           if(results > 0){
+               location.reload(true);
+           }
+           else{
+               alert("DB error");
+           }
+       });
+
+
+   }
+
+}
 function getUrlParameter(name) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');

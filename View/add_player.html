@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -10,21 +10,37 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!--controller page-->
-    <script src="/javascripts/game_selector_controller.js"></script>
+    <script src="/javascripts/add_player_controller.js"></script>
     <!--css styling-->
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
-    <title>Game Selector</title>
+    <title>Add Player(s)</title>
 </head>
-<body onload=onload()>
-<button class="btn btn-warning" btn-info onclick=toTestDraft()>Practice Draft</button>
-<button class="btn btn-warning" btn-info onclick=addPlayerInformation()>Add Player(s)</button>
-<button class="btn btn-warning" btn-info onclick=addTeamRosterInformation()>Edit Team Roster(s)</button>
+<body>
+<h1>Add Player(s)</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <p>Please Enter Player(s) Name(s)</p>
+            <textarea id="playerListNames" cols="20" rows="500" style="margin-top: 0px; margin-bottom: 0px; height: 300px;"></textarea>
 
-<h1>Game Selector</h1>
-<table class="table" id="gameTable">
-    <tbody id="gameTableBody">
-    </tbody>
-</table>
+        </div>
+        <div class="col-sm">
+            <p>Please Enter Player(s) Position(s)</p>
+            <textarea id="playerListPositions" cols="20" rows="500" style="margin-top: 0px; margin-bottom: 0px; height: 300px;"></textarea>
+        </div>        <div class="col-sm">
+              <button type="button" id="submitPlayer" class="btn btn-light">Submit</button>
+        </div>
+        <p>
+            Position Information:<br>
+            Top:1 <br>
+        JG:2<br>
+        Mid:3<br>
+        Bot:4<br>
+        Supp:5<br>
+        </p>
+
+    </div>
+</div>
 
 </body>
 </html>

@@ -25,10 +25,10 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="059218b3-a4ee-4fec-80ff-07bde63c0c39">
-        <schema name="lol_data" object-types="view, table" />
+        <schema name="lol_data" object-types="table, view" />
       </connection>
       <connection connection-id="12170178-9fbd-4622-acc7-f38751df1924">
-        <schema name="lol_data" object-types="view, table" />
+        <schema name="lol_data" object-types="table, view" />
       </connection>
     </loaded-nodes>
   </component>
@@ -48,6 +48,9 @@
     <connection id="12170178-9fbd-4622-acc7-f38751df1924" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="059218b3-a4ee-4fec-80ff-07bde63c0c39" dataset="lol_data.draft_information" active-filter-id="374c7556-21fd-445e-8782-a74cf2d8d066">
+      <filter id="374c7556-21fd-445e-8782-a74cf2d8d066" name="Filter" temporary="false" custom-name="false" type="basic" join-type="AND" />
+    </filter-actions>
     <filter-actions connection-id="059218b3-a4ee-4fec-80ff-07bde63c0c39" dataset="lol_data.game_general_actions" active-filter-id="16a57f74-6b34-4250-a6d7-cb5b4f4ac88a">
       <filter id="16a57f74-6b34-4250-a6d7-cb5b4f4ac88a" name="Filter 1" temporary="false" custom-name="false" type="basic" join-type="AND">
         <condition column="general_action_id" operator="=" value="" active="true" />

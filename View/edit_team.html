@@ -10,21 +10,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!--controller page-->
-    <script src="/javascripts/game_selector_controller.js"></script>
+    <script src="/javascripts/edit_team_controller.js"></script>
     <!--css styling-->
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
-    <title>Game Selector</title>
+    <title>Edit Team(s)</title>
 </head>
-<body onload=onload()>
-<button class="btn btn-warning" btn-info onclick=toTestDraft()>Practice Draft</button>
-<button class="btn btn-warning" btn-info onclick=addPlayerInformation()>Add Player(s)</button>
-<button class="btn btn-warning" btn-info onclick=addTeamRosterInformation()>Edit Team Roster(s)</button>
+<body>
+<h1>Edit Team(s)</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <p>Choose the league and team</p>
+            <select id="leagueSelect" onchange="leagueSelect()">
+                <option value="-1">Please Choose A League</option>
+            </select>
+            <select id="teamSelect" onchange="teamSelect()">
+            </select>
+        </div>
+        <div class="col-sm">
+            <p>Choose A Player</p>
+            <select id="playerSelect">
+            </select>
+        </div>
+         <div class="col-sm">
+            <button type="button" id="addPlayer" class="btn btn-light">Add Player</button>
+        </div>
+        <div clas="col-sm">
+            <p>TEAM INFORMATION</p>
+            <div id="teamInfo">
 
-<h1>Game Selector</h1>
-<table class="table" id="gameTable">
-    <tbody id="gameTableBody">
-    </tbody>
-</table>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
