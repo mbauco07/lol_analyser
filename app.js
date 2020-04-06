@@ -33,6 +33,13 @@ app.get('/champs', function (req, res) {
 
 });
 
+app.get('/get_champ_info', function (req, res) {
+    model.get_champ_info(req.query.champ).then(function (data) {
+        res.send(data);
+    });
+});
+
+
 app.get('/items', function (req, res) {
     model.getItems().then(function (data) {
         res.send(data);
@@ -45,8 +52,8 @@ app.get('/sspells', function (req, res) {
     });
 
 });
-app.get('/gameList', function(req, res){
-    model.getGameList((function (err, results) {
+app.get('/get_games_for_league', function(req, res){
+    model.getGameList(req.query.leagueName, (function (err, results) {
         res.send(
             {
 
@@ -59,7 +66,7 @@ app.get('/gameList', function(req, res){
 
 app.get('/get_teams_info', function(req, res){
 
-    model.getTeamsInfo( req.query.btid, req.query.rtid, (function (err, results) {
+    model.getTeamsInfo( req.query.btid, req.query.rtid,req.query.league, (function (err, results) {
          res.send(
             {
                 error:err, //the error if any occurred
@@ -126,6 +133,9 @@ app.get('/get_teams_from_league', function (req, res) {
 });
 
 
+
+
+
 app.get('/get_leagues', function (req, res) {
     model.get_leagues((function (err, results) {
         res.send(
@@ -161,6 +171,10 @@ app.get('/editTeam', function (req, res) {
 })
 app.get('/dentry', function (req, res) {
     res.sendFile(path.join(__dirname + '/View/data_entry_page.html'));
+})
+
+app.get('/dmgcalculator', function (req, res) {
+    res.sendFile(path.join(__dirname + '/View/damage_calculator.html'));
 })
 
 
@@ -214,7 +228,7 @@ app.post('/draft_data', function (req, res) {
     var draftInfo = JSON.parse(jsonDraft);
 
    // console.log('Got Body:', draftInfo);
-    model.insert_draft_info(draftInfo.gameID, draftInfo.blueBans, draftInfo.bluePicks, draftInfo.redBans, draftInfo.redPicks, draftInfo.curPatch, draftInfo.gameResult);
+    model.insert_draft_info(draftInfo.gameID, draftInfo.blueBans, draftInfo.bluePicks, draftInfo.redBans, draftInfo.redPicks, draftInfo.curPatch, draftInfo.gameResult, draftInfo.league);
 
 });
 

@@ -4,9 +4,9 @@ const axios = require('axios');
 const Path = require('path')
 const fs = require('fs')
 const request = require("request");
-const dataDragonChampUrl = 'https://ddragon.leagueoflegends.com/cdn/10.5.1/img/champion/';
-const dataDragonItemUrl = 'http://ddragon.leagueoflegends.com/cdn/10.5.1/img/item/';
-const dataDragonSSpellsUrl = 'http://ddragon.leagueoflegends.com/cdn/10.5.1/img/spell/SummonerFlash.png';
+const dataDragonChampUrl = 'https://ddragon.leagueoflegends.com/cdn/10.6.1/img/champion/';
+const dataDragonItemUrl = 'http://ddragon.leagueoflegends.com/cdn/10.6.1/img/item/';
+const dataDragonSSpellsUrl = 'http://ddragon.leagueoflegends.com/cdn/10.6.1/img/spell/SummonerFlash.png';
 
 
 
@@ -54,7 +54,7 @@ exports.getChamplist = getChampListCallback;
 */
 
 function getChamps() {
-    return axios.get('http://ddragon.leagueoflegends.com/cdn/10.5.1/data/en_US/champion.json')
+    return axios.get('http://ddragon.leagueoflegends.com/cdn/10.6.1/data/en_US/champion.json')
         //success
         .then(response => {
 
@@ -87,47 +87,73 @@ function getChamps() {
 
 exports.getChamps = getChamps;
 
-/**  getItemList
-*about: This module will get all the names of the champions in aplhabetical order and return them to the client side
-*input: N/A
-*output: a list of all the champions and their unique id
+/** GET CHAMP INFO
+ * This function will get the specfics of a champions IE, stats, stats per level etc
+ * @returns {Promise<[] | *[]>}
  */
-/**
- function getChampListCallback (callback) {
-    con.query("SELECT DISTINCT  champ_id as ID, champ_name as NAME FROM lol_data.champs ORDER BY champ_name", function (err, result, fields)
-    {
-        if(err) {
-            return (err, null);
 
-        }
+function get_champ_info(champion) {
+    return axios.get('http://ddragon.leagueoflegends.com/cdn/10.6.1/data/en_US/champion/'+champion+'.json')
+        //success
+        .then(response => {
 
-        //console.log("model side "+ JSON.stringify(result));
-        callback(err, result);
+            var champs = response.data;
+            champJSON = [];
+            for (i in champs.data) {
+                console.log(champs.data[i].tags)
+                var champStats = champs.data[i].stats;
+                var champSpells = champs.data[i].spells;
+                var champPassive = champs.data[i].passive;
+                var champInfo = {};
+                //download the champion sqaure asset
 
-    });
-
+                //downloadChampImages(, name); //this is the image file name for each characther
+                champInfo["STATS"] = champStats;
+                champInfo["SPELLS"] = champSpells;
+                champInfo["PASSIVE"] = champPassive;
+                champInfo["TAG"] = champs.data[i].tags;
+                champJSON.push(champInfo)
+            }
+            return (champJSON);
+        })
+        //failure
+        .catch(error => {
+            return error;
+        });
 }
- exports.getChamplist = getChampListCallback;
- */
+
+exports.get_champ_info = get_champ_info;
+
 
 function getItems() {
-    return axios.get('http://ddragon.leagueoflegends.com/cdn/10.5.1/data/en_US/item.json')
+    return axios.get('http://ddragon.leagueoflegends.com/cdn/10.6.1/data/en_US/item.json')
         //success
         .then(response => {
 
             itemsJSON = [];
             var items = response.data;
 
+
             for (i in items.data) {
-                var name = items.data[i].name;
-                var key =items.data[i].image.full.split(".")[0];
-                var imageName = items.data[i].image.full;
-                itemInfo = {};
-                itemInfo["NAME"] = name;
-                itemInfo["ID"] = key;
-                itemInfo["FULL"] = imageName;
-                itemInfo["URL"] = dataDragonItemUrl;
-                itemsJSON.push(itemInfo)
+                //we only want summoner rift items
+                if(items.data[i].maps[11] == true && items.data[i].inStore != false) { //11 is code name for summoners rift
+                    //console.log(items.data[i]);
+                    var name = items.data[i].name;
+                    var key = items.data[i].image.full.split(".")[0];
+                    var imageName = items.data[i].image.full;
+                    itemInfo = {};
+                    itemInfo["NAME"] = name;
+                    itemInfo["ID"] = key;
+                    itemInfo["FULL"] = imageName;
+                    itemInfo["URL"] = dataDragonItemUrl;
+                    itemInfo["GOLD"] = items.data[i].gold;
+                    itemInfo["STATS"] = items.data[i].stats;
+                    itemInfo["EFFECT"] = items.data[i].effect;
+                    itemInfo["INTO"] = items.data[i].into;
+                    itemInfo["FROM"]= items.data[i].from;
+
+                    itemsJSON.push(itemInfo)
+                }
             }
             return (itemsJSON);
         })
@@ -139,31 +165,10 @@ function getItems() {
 
 exports.getItems = getItems;
 
-/**  getSummonerSpellList
- *about: This module will get all the names of the champions in aplhabetical order and return them to the client side
- *input: N/A
- *output: a list of all the champions and their unique id
- */
-/**
- function getChampListCallback (callback) {
-    con.query("SELECT DISTINCT  champ_id as ID, champ_name as NAME FROM lol_data.champs ORDER BY champ_name", function (err, result, fields)
-    {
-        if(err) {
-            return (err, null);
 
-        }
-
-        //console.log("model side "+ JSON.stringify(result));
-        callback(err, result);
-
-    });
-
-}
- exports.getChamplist = getChampListCallback;
- */
 
 function getSummonerSpells() {
-    return axios.get('http://ddragon.leagueoflegends.com/cdn/10.5.1/data/en_US/summoner.json')
+    return axios.get('http://ddragon.leagueoflegends.com/cdn/10.6.1/data/en_US/summoner.json')
         //success
         .then(response => {
 
@@ -194,37 +199,61 @@ exports.getSummonerSpells = getSummonerSpells;
 
 
 
-/*GET_GAMES_LIST
+/**GET_GAMES_LIST
 *about: This module will retrieve the game information (the game id and the teams names)
 *input: N/A
 *output: a list of the game ids and the respective teams playing in each game on the correct side (blue or red)
 *ext: we will need to do 2 queries as we need both the blue and red side teams names both queries will include the game_id
  */
 
-function  getGameListCallBack(callback) {
+function  getGameListCallBack(leagueName, callback) {
+    var league_game_information = leagueName+"_game_information";
+    var league_game_week_information = leagueName+"_game_weeks";
+    var league_playoff_information = leagueName+"_playoffs";
     //blue side teams query
-    let blue_side_query = "SELECT game_id , team_information.team_name as Blue_Side, team_id FROM team_information\n" +
-        "INNER JOIN \n" +
-        "lcs_game_information   blue_side ON blue_side.blue_side_team = team_information.team_id\n" +
-        "ORDER BY game_id";
+    let blue_side_query = "SELECT  blue_side.game_id, team_information.team_name as Blue_Side, team_id, DATE_FORMAT(game_data, '%M %D %Y') as game_date FROM team_information\n" +
+        "INNER JOIN "+league_game_information+" blue_side \n" +
+        "ON blue_side.blue_side_team = team_information.team_id\n" +
+        "INNER JOIN "+league_game_week_information+"\n" +
+        "ON "+league_game_week_information+".game_id = blue_side.game_id\n" +
+        "ORDER BY blue_side.game_id DESC\n" +
+        "\n";
+        console.log(blue_side_query);
 
     //red side teams query
     let red_side_query = " SELECT game_id, team_information.team_name as Red_Side, team_id FROM team_information\n" +
-        "INNER JOIN \n" +
-        "lcs_game_information  red_side ON red_side.red_side_team = team_information.team_id\n" +
-        "ORDER BY game_id";
+        "INNER JOIN " +league_game_information +" red_side" +
+        " ON red_side.red_side_team = team_information.team_id\n" +
+        "ORDER BY game_id DESC";
+
+    //get playoffs games if they exists
+    let playoff_query = "SELECT match_id, "+ league_playoff_information+".game_id as gameID, blue_side_team as blue_team_id, blue_side.team_name as blue_side_team, red_side_team as red_side_team_id, red_side.team_name as red_side_team, DATE_FORMAT(game_data, '%M %D %Y') as game_date\n" +
+        "FROM "+league_playoff_information+"\n" +
+        "INNER JOIN "+league_game_information+"\n" +
+        "ON "+league_game_information+".game_id = "+league_playoff_information+".game_id\n" +
+        "INNER JOIN "+league_game_week_information+"\n" +
+        "ON "+league_game_week_information+".game_id = "+league_playoff_information+".game_id\n" +
+        "INNER JOIN team_information blue_side\n" +
+        "ON blue_side.team_id = "+league_game_information+".blue_side_team\n" +
+        "INNER JOIN team_information red_side\n" +
+        "ON red_side.team_id = "+league_game_information+".red_side_team";
 
     con.query(blue_side_query, function (err, blue_teams_results) {
         con.query(red_side_query, function (err, red_side_results) {
-            if(err) {
-                return (err, null);
+            con.query(playoff_query, function (err, playoff_results) {
+                if(err) {
+                    return (err, null);
 
-            }
-            var results = {"blue_side" : blue_teams_results, "red_side":red_side_results}
-            callback(err, results);
+                }
+                var results = {"blue_side" : blue_teams_results, "red_side":red_side_results, "playoffs": playoff_results};
+                console.log(blue_teams_results);
+                console.log(results);
+                callback(err, results);
+            });
+
 
         });
-    })
+    });
 
 }
 
@@ -238,13 +267,15 @@ output: team name, team id, player id, player name, player position name
 NOTES: we are doing two seperate queries, one for blue side and one for red side
  */
 
-function getTeamsInfo(btid, rtid, callback){
+function getTeamsInfo(btid, rtid,league, callback){
+    var league_game_information = league+"_game_information";
+
     let blue_side_query = "SELECT DISTINCT team_name as Team, team_information.team_id as tID, player_information.player_id as plyID, player_name as plyName, positions.position_name as posName\n" +
         "FROM team_rosters_spring_2020\n" +
         "INNER JOIN team_information\n" +
         "ON team_rosters_spring_2020.team_id = team_information.team_id\n" +
-        "INNER JOIN lcs_game_information\n" +
-        "ON lcs_game_information.blue_side_team = team_information.team_id\n" +
+        "INNER JOIN "+league_game_information+"\n" +
+        "ON "+league_game_information+".blue_side_team = team_information.team_id\n" +
         "INNER JOIN player_information \n" +
         "ON player_information.player_id = team_rosters_spring_2020.player_id\n" +
         "INNER JOIN positions\n" +
@@ -255,13 +286,14 @@ function getTeamsInfo(btid, rtid, callback){
         "FROM team_rosters_spring_2020\n" +
         "INNER JOIN team_information\n" +
         "ON team_rosters_spring_2020.team_id = team_information.team_id\n" +
-        "INNER JOIN lcs_game_information\n" +
-        "ON lcs_game_information.red_side_team = team_information.team_id\n" +
+        "INNER JOIN "+league_game_information+"\n" +
+        "ON "+league_game_information+".red_side_team = team_information.team_id\n" +
         "INNER JOIN player_information \n" +
         "ON player_information.player_id = team_rosters_spring_2020.player_id\n" +
         "INNER JOIN positions\n" +
         "ON positions.position_id = player_information.positions_position_id\n" +
         "WHERE team_information.team_id ="+con.escape(rtid);
+
 
     con.query(blue_side_query, function (err, blue_side_results) {
         con.query(red_side_query, function (err, red_side_results) {
@@ -291,8 +323,10 @@ exports.getTeamsInfo = getTeamsInfo;
  * @param gameResults: holds the information regarding which team won and lost the match
  *
  */
-function insert_draft_info(gameID, blueBans, bluePicks, redBans, redPicks,curPatch, gameResults) {
-        var insertSQL = "INSERT INTO draft_information (game_id, team_id, champ_id, player_id, pb_time, pb_type, pb_number, team_side, patch) VALUES ?";
+function insert_draft_info(gameID, blueBans, bluePicks, redBans, redPicks,curPatch, gameResults,league) {
+
+    var league_game_information = league+"_draft_information";
+        var insertSQL = "INSERT INTO "+ league_game_information+" (game_id, team_id, champ_id, player_id, pb_time, pb_type, pb_number, team_side, patch) VALUES ?";
         var values = [
             [gameID, blueBans[0]["tID"], blueBans[0]["cID"], blueBans[0]["plyID"], blueBans[0]["TIME"], blueBans[0]["pTYPE"], blueBans[0]["pbNum"], blueBans[0]["TEAM_SIDE"], curPatch ],
             [gameID, blueBans[1]["tID"], blueBans[1]["cID"], blueBans[1]["plyID"], blueBans[1]["TIME"], blueBans[1]["pTYPE"], blueBans[1]["pbNum"], blueBans[1]["TEAM_SIDE"], curPatch ],
@@ -320,7 +354,10 @@ function insert_draft_info(gameID, blueBans, bluePicks, redBans, redPicks,curPat
             console.log("Number of records inserted: " + result.affectedRows);
         });
 
-        var winloseInsert = "INSERT INTO win_lose_information  (game_id, team_id, win_lose, team_side) VALUES ? ";
+
+    var league_win_lose_information = league+"_win_lose_information";
+
+    var winloseInsert = "INSERT INTO "+league_win_lose_information+" (game_id, team_id, win_lose, team_side) VALUES ? ";
         var winloseValues = [
             [gameID, gameResults[0]['tID'], gameResults[0]['result'], gameResults[0]['team_side']],
             [gameID, gameResults[1]['tID'], gameResults[1]['result'],gameResults[1]['team_side']]

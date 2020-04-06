@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    <!-- Optional JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!--controller page-->
+    <script src="/javascripts/damage_calculator_controller.js"></script>
+
+    <!--css styling-->
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+    <title>Damage Calculator</title>
+</head>
+
+<h1>Damage Calculator</h1>
+<div class="row">
+    <div class="col-sm" id="champInfo">
+        <div id="champImg"></div>
+        <div class="row" id="shardsInfo">
+            <select id="shardOffense">
+                <option value="af">9 Adaptive Force</option>
+                <option value="as">10% Attack Speed</option>
+                <option value="cd">1-10% CD (per level)</option>
+            </select>
+            <select id="shardFlex">
+                <option value="af">9 Adaptive Force</option>
+                <option value="ar">6 Armor</option>
+                <option value="mr">8 Bonus Magic resist</option>
+            </select>
+            <select id="shardDefense">
+                <option value="ht">+15-90 Health (per level)</option>
+                <option value="ar">6 Bonus Armor</option>
+                <option value="mr">8 Bonus Magic resist</option>
+            </select>
+        </div>
+        <div class="row">
+            <button id="addShards">Update</button>
+        </div>
+    </div>
+    <div class="col-sm">
+        <table class="table table-dark" style="border: 50px" id="champStatsTable">
+            <thead>
+            <tr>
+                <th scope="col">Stat</th>
+                <th scope="col">Base Level 1</th>
+                <th scope="col">BaseLevel 18</th>
+                <th scope="col">Base Per Level</th>
+                <th scope="col">Specific Level + Runes<select id='level_selector'></select></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row" id="healthStats">Health</th>
+                <td id="hp_lvl1Stats">-</td>
+                <td id="hp_lvl18Stats">-</td>
+                <td id="hp_perLevelStats">-</td>
+                <td id="hp_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="healthRenStats">Health Regen</th>
+                <td id="hpRen_lvl1Stats">-</td>
+                <td id="hpRen_lvl18Stats">-</td>
+                <td id="hpRen_perLevelStats">-</td>
+                <td id="hpRen_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="manaStats">Mana/Energy</th>
+                <td id="mana_lvl1Stats">-</td>
+                <td id="mana_lvl18Stats">-</td>
+                <td id="mana_perLevelStats">-</td>
+                <td id="mana_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="manaRenStats">Mana/Energy Regen</th>
+                <td id="manaRen_lvl1Stats">-</td>
+                <td id="manaRen_lvl18Stats">-</td>
+                <td id="manaRen_perLevelStats">-</td>
+                <td id="manaRen_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="adStats">Attack Damage</th>
+                <td id="ad_lvl1Stats">-</td>
+                <td id="ad_lvl18Stats">-</td>
+                <td id="ad_perLevelStats">-</td>
+                <td id="ad_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="apStats">Ability Power</th>
+                <td id="ap_lvl1Stats">-</td>
+                <td id="ap_lvl18Stats">-</td>
+                <td id="ap_perLevelStats">-</td>
+                <td id="ap_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="asStats">Attack Speed</th>
+                <td id="as_lvl1Stats">-</td>
+                <td id="as_lvl18Stats">-</td>
+                <td id="as_perLevelStats">-</td>
+                <td id="as_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="arStats">Armor</th>
+                <td id="ar_lvl1Stats">-</td>
+                <td id="ar_lvl18Stats">-</td>
+                <td id="ar_perLevelStats">-</td>
+                <td id="ar_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="mrStats">Magic Resist</th>
+                <td id="mr_lvl1Stats">-</td>
+                <td id="mr_lvl18Stats">-</td>
+                <td id="mr_perLevelStats">-</td>
+                <td id="mr_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="crit">Critical Chance</th>
+                <td id="cr_lvl1Stats">-</td>
+                <td id="cr_lvl18Stats">-</td>
+                <td id="cr_perLevelStats">-</td>
+                <td id="cr_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="range">Range</th>
+                <td id="r_lvl1Stats">-</td>
+                <td id="r_lvl18Stats">-</td>
+                <td id="r_perLevelStats">-</td>
+                <td id="r_specificLevelStat">-</td>
+            </tr>
+            </tbody>
+        </table sty>
+        <p id="specialCaseInfo"></p>
+    </div>
+    <div class="col-sm">
+        <table class="table table-dark" id="champStatsTable2">
+            <thead>
+            <tr>
+                <th scope="col">Stat</th>
+                <th scope="col">Base Level 1</th>
+                <th scope="col">BaseLevel 18</th>
+                <th scope="col">Base Per Level</th>
+                <th scope="col">Specific Level + Runes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row" id="cooldown">Cooldown Reduction (In Percent)</th>
+                <td id="cd_lvl1Stats">-</td>
+                <td id="cd_lvl18Stats">-</td>
+                <td id="cd_perLevelStats">-</td>
+                <td id="cd_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="movementspeed">Movement Speed</th>
+                <td id="ms_lvl1Stats">-</td>
+                <td id="ms_lvl18Stats">-</td>
+                <td id="ms_perLevelStats">-</td>
+                <td id="ms_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="armorpen">Armor Penetration</th>
+                <td id="apen_lvl1Stats">-</td>
+                <td id="apen_lvl18Stats">-</td>
+                <td id="apen_perLevelStats">-</td>
+                <td id="apen_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="magicpen">Magic Penetration</th>
+                <td id="mpen_lvl1Stats">-</td>
+                <td id="mpen_lvl18Stats">-</td>
+                <td id="mpen_perLevelStats">-</td>
+                <td id="mpen_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="lethality">Lethality</th>
+                <td id="l_lvl1Stats">-</td>
+                <td id="l_lvl18Stats">-</td>
+                <td id="l_perLevelStats">-</td>
+                <td id="l_specificLevelStat">-</td>
+            </tr>
+            <tr>
+                <th scope="row" id="lifesteal">Life Steal</th>
+                <td id="lfs_lvl1Stats">-</td>
+                <td id="lfs_lvl18Stats">-</td>
+                <td id="lfs_perLevelStats">-</td>
+                <td id="lfs_specificLevelStat">-</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-sm" id="buildTable">
+        <h3>Items</h3>
+        <div class="row" id="itemRowOne">
+            <div class="col-sm-4" id="item1"></div>
+            <div class="col-sm-4" id="item2"></div>
+            <div class="col-sm-4" id="item3"></div>
+            <div class="col-sm-4" id="item4"></div>
+            <div class="col-sm-4" id="item5"></div>
+            <div class="col-sm-4" id="item6"></div>
+       <div class="row" id="buildCost"></div>
+
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <div style="overflow-y: scroll; height:400px;" id="champsDiv"></div>
+   </div>
+    <div class="col-8" id="itemList">
+        <input type="text" style="border: 20px" id="itemInput" onkeyup="itemSearch()" placeholder="Search for Items..">
+        <ul style="overflow-x: scroll; height:400px;" id="itemsUl">
+
+        </ul>
+    </div>
+
+</div>
+</>
+
+</body>
+<footer>
+    <p>DATA ABOUT CHAMPIONS, ITEMS AND MAP ARE ALL FROM RIOT GAMES API</p>
+</footer>
+</html>

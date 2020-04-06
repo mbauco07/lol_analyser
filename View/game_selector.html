@@ -19,12 +19,19 @@
 <button class="btn btn-warning" btn-info onclick=toTestDraft()>Practice Draft</button>
 <button class="btn btn-warning" btn-info onclick=addPlayerInformation()>Add Player(s)</button>
 <button class="btn btn-warning" btn-info onclick=addTeamRosterInformation()>Edit Team Roster(s)</button>
+<button class="btn btn-info" btn-info onclick=DamageCalculator()>Damage Calculator</button>
+
+
 
 <h1>Game Selector</h1>
-<table class="table" id="gameTable">
-    <tbody id="gameTableBody">
-    </tbody>
-</table>
+<select id="leagueSelect" onchange="leagueSelect()">
+    <option value="null">Please Pick A League</option>
+</select>
+<input type="text" style="border: 20px" id="gameInput" onkeyup="gameSearch()" placeholder="Search for Game..">
+
+<div>
+    <ul id="gamesUl" style="display: inline-block;"></ul>
+</div>
 
 </body>
 <footer>

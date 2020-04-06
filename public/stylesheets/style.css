@@ -31,7 +31,9 @@ article #count{
   background-color: aliceblue;
   border-radius: 2px;
 }
-
+div{
+  padding-bottom: 30px;
+}
 div #blueSide{
   background-color: dodgerblue;
 }
@@ -40,6 +42,9 @@ div #redSide{
   background-color: crimson;
 }
 
+div #itemList{
+  background-color: burlywood;
+}
 hr {
   display: block;
   margin-top: 0.5em;
@@ -48,4 +53,8 @@ hr {
   margin-right: auto;
   border-style: inset;
   border-width: 5px;
+}
+
+ul {
+ column-count: 3 ;
 }

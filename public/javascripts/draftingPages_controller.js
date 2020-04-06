@@ -30,7 +30,7 @@ window.onload = function(){
  * We will receive the team names, and the current players for the teams
  */
 function get_teams_info(){
-    $.get('/get_teams_info', { btid:getUrlParameter("btid"), rtid: getUrlParameter("rtid")}, function (data) {
+    $.get('/get_teams_info', { btid:getUrlParameter("btid"), rtid: getUrlParameter("rtid"), league: getUrlParameter("lea")}, function (data) {
         blue_side = data.results.blue_side;
         red_side =  data.results.red_side;
         document.getElementById("blueSideTeam").innerHTML = blue_side[0]["Team"].replace(/_/g, ' ');
@@ -316,7 +316,8 @@ function submitDraftInfo() {
                 "redBans": bansRed,
                 "redPicks": picksRed,
                 "curPatch": currPatch,
-                "gameResult":gameResult
+                "gameResult":gameResult,
+                "league":getUrlParameter("lea")
             };
 
 
